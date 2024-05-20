@@ -1,0 +1,21 @@
+//-TẠO MIXIN GIAO DIỆN NÚT PHÂN TRANG ĐỂ TÁI SỬ DỤNG NHIỀU TRANG KHÁC
+mixin buttonPage(ObjectPage)
+    nav
+        ul(class="pagination")
+    
+            li(class="page-item")
+            if(panigation.currentPage>1)
+                button(class="page-link"
+                button-page=panigation.currentPage-1) Trang trước
+    
+            -for(var i=1;i<=panigation.totalPage;i++)
+                li(class=`page-item ${panigation.currentPage==i?"active":""}`)
+                    button(class="page-link"
+                    button-page=i
+                    ) #{i}
+     
+            if(panigation.currentPage<panigation.totalPage)
+                li(class="page-item")
+                    button(class="page-link"
+                    button-page=panigation.currentPage+1
+                    ) Kế tiếp

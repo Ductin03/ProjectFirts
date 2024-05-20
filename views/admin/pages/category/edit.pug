@@ -1,0 +1,103 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+include ../../mixins/select-tree.pug
+
+block main
+    //-enctype="multipart/form-data" BỎ THUỘC TÍNH NÀY VÀO FORM ĐỂ UPLOAD ẢNH 
+    h1 Thêm mới sản phẩm
+    +alert-error(5000)
+    form(
+        action=`${fixadmin}/category-product/edit/${EditCategory.id}?_method=PATCH`
+        method="POST"
+        enctype="multipart/form-data"
+    )
+        div(class="form-group")
+            label(for="title") Tiêu đề
+            input(
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                value=EditCategory.title
+            )
+
+        div(class="form-group")
+            label(for="parent_id") Danh mục cha
+            select(
+                    class="form-control"
+                    id="parent_id"
+                    name="parent_id"
+                )
+                    option(value="") ---Chọn danh mục---
+                    if(records)
+                        +select-Tree(records,1,EditCategory.parent_id)
+
+
+        div(class="form-group")
+            label(for="desc") Mô tả
+            textarea(
+                class="form-control textarea-mce"
+                id="desc"
+                name="description"
+                rows="5"
+                ) #{EditCategory.description}
+        div(class="form-group"
+            upload-image
+        ) 
+            label(for="thumbnail") Ảnh
+            input(
+                type="file"
+                class="form-control-file"
+                id="thumbnail"
+                name="thumbnail"
+                accept="image/*"
+                upload-image-input
+        )
+            img(
+            src=EditCategory.thumbnail,
+            upload-image-preview
+            class="image-preview"
+            )
+            
+        div(class="form-group")
+            label(for="position") Vị trí
+            input(
+                type="number"
+                class="form-control"
+                id="position"
+                name="position"
+                placeholder="Tự động tăng"
+                min="1"
+                value=EditCategory.position
+        )
+        
+        div(class="form-group form-check form-check-inline")
+            input(
+                type="radio"
+                class="form-check-input"
+                id="statusActive"
+                name="status"
+                value="active"
+                checked=(EditCategory.status=="active"?true:false)
+        )
+            label(for="statusActive" class="form-check-label") Hoạt động
+
+        div(class="form-group form-check form-check-inline")
+            input(
+                type="radio"
+                class="form-check-input"
+                id="statusInActive"
+                name="status"
+                value="inactive"
+                checked=(EditCategory.status=="inactive"?true:false)
+        )
+            label(for="statusInActive" class="form-check-label") Dừng hoạt động
+            
+        div(class="form-group")
+            button(
+                type="submit"
+                class="btn btn-primary"
+                ) Cập nhật
+                
+
+        script(src="/admin/js/product.js")

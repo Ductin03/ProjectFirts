@@ -1,0 +1,50 @@
+//-KẾ THỪA LAYOUTS SỬ DỤNG CHUNG
+extends ../../layouts/default.pug
+include ../../mixins/filterstatus.pug
+include ../../mixins/search.pug
+include ../../mixins/buttonPage.pug
+include ../../mixins/table-tree.pug
+block main
+    h1 Danh mục sản phẩm 
+    .card.mb-3
+        .card-header Bộ lọc và Tìm kiếm
+        .card-body
+            .row
+                .col-6
+                    +FindProduct(FilterStatus)
+                .col-6
+                    //-TÌM THEO SEARCH(REGEX)
+                    +search(Keyword)
+    .card.mb-3
+        .card-header Sản Phẩm
+            .card-body
+                .row
+                    .col-8          
+                    .col-4
+                        a(href=`${fixadmin}/category-product/create`
+                        class="btn btn-outline-success"
+                        ) +Thêm mới
+                //-BẢNG SẢN PHẨM & CSS 
+                table(
+                    class="table table-hover table-sm"
+                    checkbox-multi
+                )
+                    thead
+                        tr  
+                            th 
+                                input(type="checkbox", name="checkall")
+                            th STT
+                            th Hình ảnh
+                            th Tiêu đề
+                            th Thay đổi vị trí
+                            th Trạng thái
+                            th Hành động
+
+                    tbody
+                        +table-tree(records)
+                        
+    +buttonPage(panigation)
+    
+    
+    
+    //- script(src="/admin/js/product.js") 
